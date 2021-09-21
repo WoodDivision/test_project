@@ -39,6 +39,7 @@ function _pgInsert ($table, $values, $pdo){
     } catch (Exception $e){
         echo $e-> getMessage ();
         die;
+
     }
 }
 
