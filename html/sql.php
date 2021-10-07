@@ -1,4 +1,5 @@
 <?php
+
 ini_set('display_errors', 1);
 
 ini_set('display_startup_errors', 1);
@@ -21,15 +22,18 @@ $dbc = new PDO($dsn, $user, $pass, $pdo_option);
 
 interface ValidateParams
 {
-    function _validateValue($querry);
+    public function _validateValue($querry);
 }
 
 class SQLUsers implements ValidateParams
 {
+    public $name;
+    public $nick;
+    public $city;
+    public $date;
+    public $email;
 
-    public $name, $nick, $city, $date, $email;
-
-    function __construct($name, $nick, $city, $date, $email)
+    public function __construct($name, $nick, $city, $date, $email)
     {
         $this->name = $name;
         $this->nick = $nick;
@@ -39,7 +43,7 @@ class SQLUsers implements ValidateParams
     }
 
     //функция Select
-    function _select(string $field, string $table, array $Condition, PDO $pdo): array
+    public function _select(string $field, string $table, array $Condition, PDO $pdo): array
     {
         foreach ($Condition as $key => $value) {
             $sql = "SELECT $field FROM $table WHERE $key = ? ";
@@ -53,7 +57,7 @@ class SQLUsers implements ValidateParams
     }
 
     //функция InsertUser
-    function _insertUser(
+    public function _insertUser(
         string $name,
         string $nick,
         string $email,
@@ -72,7 +76,7 @@ class SQLUsers implements ValidateParams
     }
 
     //функция InsertCity
-    function _insertCity(string $city, PDO $pdo)
+    public function _insertCity(string $city, PDO $pdo)
     {
         $sql = "INSERT INTO cities VALUES (?)";
         $prep = $pdo->prepare($sql);
@@ -80,7 +84,7 @@ class SQLUsers implements ValidateParams
         $prep->execute();
     }
 
-    function _validateValue($querry)
+    public function _validateValue($querry)
     {
         if (isset($querry['id'])) {
             echo "Пользователь с такими данными уже существует";
@@ -101,9 +105,9 @@ if (isset($_POST)) {
 
     $user = new SQLUsers($name, $nick, $city, $date, $email);
     $city_id = $user->_select('city', 'cities', ['city' => $city], $dbc);
-    if (isset($city_id[0])){
+    if (isset($city_id[0])) {
         $user->_insertCity($city, $dbc);
         $city_id = $user->_select('city', 'cities', ['city' => $city], $dbc);
     }
-    $user->_insertUser($name,$nick,$email,$date,$city_id['id'],$dbc);
+    $user->_insertUser($name, $nick, $email, $date, $city_id['id'], $dbc);
 }
