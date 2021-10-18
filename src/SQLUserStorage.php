@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "/interface.php";
+require_once __DIR__ . "/UserStorageInterface.php";
 
 /** 
  * from $_POST
