@@ -26,14 +26,13 @@ if (isset($_POST)) {
     $header = 'http://testproject.local/';
 
 
-    $newCity = new SQLCityStorage($dbc);
-    $newCity->issetCity($city);
-    if ($newCity == false) {
-        $cityID = $newCity->insert($city);
+    $CityStorage = new SQLCityStorage($dbc);
+    if ($CityStorage->issetCity($city) === false) {
+        $cityID = $CityStorage->insert($city);
     }
-    $cityID = $newCity->select($city);
-    $newUser = new SQLUserStorage($dbc);
-    $newUser->insert($name, $nick, $cityID, $date, $email);
+    $cityID = $CityStorage->select($city);
+    $UserStorage = new SQLUserStorage($dbc);
+    $UserStorage->insert($name, $nick, $cityID, $date, $email);
     header("Refresh: 5, url=$header");
     echo "Регистрация прошла успешно";
 }

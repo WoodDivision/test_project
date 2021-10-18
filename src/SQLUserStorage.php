@@ -17,14 +17,9 @@ require_once __DIR__ . "/interface.php";
 class SQLUserStorage implements UserStorageInteface
 {
 
-    public string $name;
-    public string $nick;
-    public int $city_id;
-    public string $date;
-    public string $email;
-    public PDO $pdo;
+    protected PDO $pdo;
 
-    function __construct(
+    public function __construct(
         PDO $pdo
     ) {
         $this->pdo = $pdo;
