@@ -1,19 +1,18 @@
 <?php
 
-require_once __DIR__ . "/CityStorageInterfacephp";
+require_once __DIR__ . "/CityStorageInterface.php";
 
 /**
  * from $_POST
  *
- * @param city_id
  * @param PDO $pdo connect
  *
  * @return id of last operation 
  **/
 
-class SQLCityStorage implements CityStorageInteface
+class SQLCityStorage implements CityStorageInterface
 {
-    protected PDO $pdo;
+    public PDO $pdo;
 
     public function __construct(
         PDO $pdo
@@ -23,17 +22,13 @@ class SQLCityStorage implements CityStorageInteface
 
     public function select(string $city): int
     {
-        $sql = "SELECT id FROM cities WHERE city = ?";
-        $prep = $this->pdo->prepare($sql);
-        $prep->bindParam(1, $city, PDO::PARAM_STR);
-        $prep->execute();
-        $id = $prep->fetch(PDO::FETCH_ASSOC);
-        return $id['id'];
+        $id = $this->issetCity($city);
+        return $id;
     }
 
     public function insert(string $city): int
     {
-        $sql = "INSERT INTO cities VALUES (?)";
+        $sql = "INSERT INTO cities(city) VALUES (?)";
         $prep = $this->pdo->prepare($sql);
         $prep->bindParam(1, $city, PDO::PARAM_STR);
         $prep->execute();
@@ -48,9 +43,9 @@ class SQLCityStorage implements CityStorageInteface
         $prep->bindParam(1, $city, PDO::PARAM_STR);
         $prep->execute();
         $id = $prep->fetch(PDO::FETCH_ASSOC);
-        if (isset($id['id'])) {
-            return true;
+        if ($id===false) {
+            return false;
         }
-        return false;
+        return true or $id['id'];
     }
 }
