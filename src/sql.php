@@ -6,7 +6,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 require_once __DIR__ . "/DBconnector.php";
-require_once __DIR__ . "/AbstractFactory.phpphp";
+require_once __DIR__ . "/AbstractFactory.php";
 
 function validateData($data)
 {
@@ -25,7 +25,7 @@ if (isset($_POST)) {
     $header = 'http://testproject.local/';
 
     $SQLFactory = new AbstractFactory;
-    $cityID=$SQLFactory->createCity($city);
+    $cityID = $SQLFactory->createCity($city);
     $SQLFactory->createUser($name, $nick, $cityID, $date, $email);
     header("Refresh: 5, url=$header");
     echo "Регистрация прошла успешно";
