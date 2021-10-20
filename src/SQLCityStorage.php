@@ -22,8 +22,12 @@ class SQLCityStorage implements CityStorageInterface
 
     public function select(string $city): int
     {
-        $id = $this->issetCity($city);
-        return $id;
+        $sql = "SELECT id FROM cities WHERE city = ?";
+        $prep = $this->pdo->prepare($sql);
+        $prep->bindParam(1, $city, PDO::PARAM_STR);
+        $prep->execute();
+        $id = $prep->fetch(PDO::FETCH_ASSOC);
+        return $id['id'];
     }
 
     public function insert(string $city): int
@@ -46,6 +50,6 @@ class SQLCityStorage implements CityStorageInterface
         if ($id===false) {
             return false;
         }
-        return true or $id['id'];
+        return true
     }
 }
