@@ -1,8 +1,8 @@
 <?php
 
-interface CityStorageInteface
+interface CityStorageInterface
 {
-    public function insert(string $city): int;
+    public function select(string $city): int;
     public function issetCity(string $city): bool;
-    public function select (string $city): int;
+    public function insert(string $city):int;
 }
