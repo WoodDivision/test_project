@@ -2,6 +2,9 @@
 
 require_once __DIR__ . "/SQLStorage.php";
 require_once __DIR__ . "/DBconnector.php";
+require_once __DIR__ . "/SQLCityStorage.php";
+require_once __DIR__ . "/SQLUserStorage.php";
+
 
 class AbstractFactory implements SQLStorage
 {
@@ -30,7 +33,7 @@ class AbstractFactory implements SQLStorage
         int $city_id,
         string $date,
         string $email
-    ):int {
+    ): int {
         return $this->UserStorage->insert(
             $name,
             $nick,

@@ -50,6 +50,6 @@ class SQLCityStorage implements CityStorageInterface
         if ($id===false) {
             return false;
         }
-        return true
+        return true;
     }
 }
